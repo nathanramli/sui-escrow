@@ -10,7 +10,6 @@ module sui_escrow::escrow {
         offeror: address,
         offered_token: Balance<T>,
         expected_amount: u64,
-        expected_token: Balance<Y>,
     }
 
     fun init(_: &mut TxContext) { }
@@ -29,7 +28,6 @@ module sui_escrow::escrow {
                 offeror: sender,
                 offered_token: offered_token,
                 expected_amount: expected_amount,
-                expected_token: balance::zero<EXPECTED_TOKEN>(),
             }
         );
     }
@@ -40,8 +38,22 @@ module sui_escrow::escrow {
         ctx: &mut TxContext,
     ) {
         assert!(balance::value<EXPECTED_TOKEN>(&expected_token) == escrow.expected_amount, 1);
+
+        let sender = tx_context::sender(ctx);
         transfer::transfer(coin::from_balance<EXPECTED_TOKEN>(expected_token, ctx), escrow.offeror);
-        // balance::join<EXPECTED_TOKEN>(&mut escrow.expected_token, expected_token);
+        let offered_token_value = balance::value<OFFERED_TOKEN>(&escrow.offered_token);
+        let offered_token = balance::split<OFFERED_TOKEN>(&mut escrow.offered_token, offered_token_value);
+        transfer::transfer(coin::from_balance<OFFERED_TOKEN>(offered_token, ctx), sender);
+
+        // shared object deletation is not supported
+        // let Escrow {
+        //     id: id,
+        //     offeror: offeror,
+        //     offered_token: offered_token,
+        //     expected_amount: expected_amount,
+        // } = escrow;
+        
+        // object::delete(id);
     }
 
     #[test_only]
@@ -55,6 +67,7 @@ module sui_escrow::escrow {
     public fun test_offer_and_take() {
         use sui::test_scenario;
         // use std::debug;
+        use std::vector;
         
         // create test addresses
         let admin = @0xBABE;
@@ -67,7 +80,8 @@ module sui_escrow::escrow {
             init(test_scenario::ctx(scenario));
             let minted_ant_coin = coin::mint_for_testing<ANT>(1000, test_scenario::ctx(scenario));
             transfer::transfer(minted_ant_coin, offeror);
-            transfer::transfer(coin::zero<BEE>(test_scenario::ctx(scenario)), offeror);
+            let minted_bee_coin = coin::mint_for_testing<BEE>(20, test_scenario::ctx(scenario));
+            transfer::transfer(minted_bee_coin, offeror);
 
             let minted_bee_coin = coin::mint_for_testing<BEE>(1000, test_scenario::ctx(scenario));
             transfer::transfer(minted_bee_coin, taker);
@@ -95,23 +109,26 @@ module sui_escrow::escrow {
             let taker_bee_coin = coin::split<BEE>(&mut bee_coin, 1000, test_scenario::ctx(scenario));
             take_offer<ANT, BEE>(
                 &mut escrow,
-                // &mut offeror_bee_coin,
                 coin::into_balance<BEE>(taker_bee_coin),
                 test_scenario::ctx(scenario));
-            let offeror_bee_coin = test_scenario::take_from_address<Coin<BEE>>(scenario, offeror);
-            assert!(coin::value<BEE>(&offeror_bee_coin) == 1000, 4);
-            test_scenario::return_to_address(offeror, offeror_bee_coin);
             test_scenario::return_to_sender(scenario, bee_coin);
             test_scenario::return_shared<Escrow<ANT, BEE>>(escrow);
-            // let ant_coin = test_scenario::take_from_sender<Coin<ANT>>(scenario);
-            // let offered_ant_coin = coin::split<ANT>(&mut ant_coin, 100, test_scenario::ctx(scenario));
-            // create_offer<ANT, BEE>(
-            //     coin::into_balance<ANT>(offered_ant_coin),
-            //     1000,
-            //     test_scenario::ctx(scenario)
-            // );
-            // assert!(coin::value<ANT>(&mut ant_coin) == 900, 1);
-            // test_scenario::return_to_sender(scenario, ant_coin);
+        };
+        test_scenario::next_tx(scenario, admin);
+        {
+            let ids = test_scenario::ids_for_address<Coin<BEE>>(offeror);
+            
+            let sum = 0;
+            while (!vector::is_empty(&ids)) {
+                let id = vector::pop_back(&mut ids);
+                let offeror_bee_coin = test_scenario::take_from_address_by_id<Coin<BEE>>(
+                    scenario,
+                    offeror,
+                    id);
+                sum = sum + coin::value<BEE>(&offeror_bee_coin);
+                test_scenario::return_to_address(offeror, offeror_bee_coin);
+            };
+            assert!(sum == 1020, 4);
         };
         test_scenario::end(scenario_val);
     }
