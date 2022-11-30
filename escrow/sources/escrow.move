@@ -15,18 +15,21 @@ module sui_escrow::escrow {
     fun init(_: &mut TxContext) { }
 
     public entry fun create_offer<OFFERED_TOKEN, EXPECTED_TOKEN>(
-        offered_token: Balance<OFFERED_TOKEN>,
+        offeror_coin: &mut Coin<OFFERED_TOKEN>,
+        offered_amount: u64,
         expected_amount: u64,
         ctx: &mut TxContext,
     ) {
         let sender = tx_context::sender(ctx);
         let id = object::new(ctx);
 
+        let offered_token = coin::split<OFFERED_TOKEN>(offeror_coin, offered_amount, ctx);
+
         transfer::share_object(
             Escrow<OFFERED_TOKEN, EXPECTED_TOKEN> {
                 id,
                 offeror: sender,
-                offered_token: offered_token,
+                offered_token: coin::into_balance<OFFERED_TOKEN>(offered_token),
                 expected_amount: expected_amount,
             }
         );
@@ -34,13 +37,15 @@ module sui_escrow::escrow {
 
     public entry fun take_offer<OFFERED_TOKEN, EXPECTED_TOKEN>(
         escrow: &mut Escrow<OFFERED_TOKEN, EXPECTED_TOKEN>,
-        expected_token: Balance<EXPECTED_TOKEN>,
+        taker_coin: &mut Coin<EXPECTED_TOKEN>,
         ctx: &mut TxContext,
     ) {
-        assert!(balance::value<EXPECTED_TOKEN>(&expected_token) == escrow.expected_amount, 1);
+        assert!(coin::value<EXPECTED_TOKEN>(taker_coin) >= escrow.expected_amount, 1);
+
+        let expected_coin = coin::split<EXPECTED_TOKEN>(taker_coin, escrow.expected_amount, ctx);
 
         let sender = tx_context::sender(ctx);
-        transfer::transfer(coin::from_balance<EXPECTED_TOKEN>(expected_token, ctx), escrow.offeror);
+        transfer::transfer(expected_coin, escrow.offeror);
         let offered_token_value = balance::value<OFFERED_TOKEN>(&escrow.offered_token);
         let offered_token = balance::split<OFFERED_TOKEN>(&mut escrow.offered_token, offered_token_value);
         transfer::transfer(coin::from_balance<OFFERED_TOKEN>(offered_token, ctx), sender);
@@ -90,9 +95,9 @@ module sui_escrow::escrow {
         test_scenario::next_tx(scenario, offeror);
         {
             let ant_coin = test_scenario::take_from_sender<Coin<ANT>>(scenario);
-            let offered_ant_coin = coin::split<ANT>(&mut ant_coin, 100, test_scenario::ctx(scenario));
             create_offer<ANT, BEE>(
-                coin::into_balance<ANT>(offered_ant_coin),
+                &mut ant_coin,
+                100,
                 1000,
                 test_scenario::ctx(scenario)
             );
@@ -106,10 +111,9 @@ module sui_escrow::escrow {
             assert!(escrow.expected_amount == 1000, 3);
 
             let bee_coin = test_scenario::take_from_sender<Coin<BEE>>(scenario);
-            let taker_bee_coin = coin::split<BEE>(&mut bee_coin, 1000, test_scenario::ctx(scenario));
             take_offer<ANT, BEE>(
                 &mut escrow,
-                coin::into_balance<BEE>(taker_bee_coin),
+                &mut bee_coin,
                 test_scenario::ctx(scenario));
             test_scenario::return_to_sender(scenario, bee_coin);
             test_scenario::return_shared<Escrow<ANT, BEE>>(escrow);
