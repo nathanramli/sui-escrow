@@ -5,11 +5,18 @@ module sui_escrow::escrow {
     use sui::coin::{Self, Coin};
     use sui::transfer;
 
+    /// Inactive escrow
+    const EInactiveEscrow: u64 = 0;
+
+    /// Not enought balance
+    const ENotEnoughBalance: u64 = 1;
+
     struct Escrow<phantom T, phantom Y> has key {
         id: UID,
         offeror: address,
         offered_token: Balance<T>,
         expected_amount: u64,
+        active: bool,
     }
 
     fun init(_: &mut TxContext) { }
@@ -31,6 +38,7 @@ module sui_escrow::escrow {
                 offeror: sender,
                 offered_token: coin::into_balance<OFFERED_TOKEN>(offered_token),
                 expected_amount: expected_amount,
+                active: true,
             }
         );
     }
@@ -40,7 +48,8 @@ module sui_escrow::escrow {
         taker_coin: &mut Coin<EXPECTED_TOKEN>,
         ctx: &mut TxContext,
     ) {
-        assert!(coin::value<EXPECTED_TOKEN>(taker_coin) >= escrow.expected_amount, 1);
+        assert!(escrow.active == false, EInactiveEscrow);
+        assert!(coin::value<EXPECTED_TOKEN>(taker_coin) >= escrow.expected_amount, ENotEnoughBalance);
 
         let expected_coin = coin::split<EXPECTED_TOKEN>(taker_coin, escrow.expected_amount, ctx);
 
@@ -49,6 +58,8 @@ module sui_escrow::escrow {
         let offered_token_value = balance::value<OFFERED_TOKEN>(&escrow.offered_token);
         let offered_token = balance::split<OFFERED_TOKEN>(&mut escrow.offered_token, offered_token_value);
         transfer::transfer(coin::from_balance<OFFERED_TOKEN>(offered_token, ctx), sender);
+
+        escrow.active = false;
 
         // shared object deletation is not supported
         // let Escrow {
@@ -101,12 +112,13 @@ module sui_escrow::escrow {
                 1000,
                 test_scenario::ctx(scenario)
             );
-            assert!(coin::value<ANT>(&mut ant_coin) == 900, 1);
+            assert!(coin::value<ANT>(&mut ant_coin) == 900, 2);
             test_scenario::return_to_sender(scenario, ant_coin);
         };
         test_scenario::next_tx(scenario, taker);
         {
             let escrow = test_scenario::take_shared<Escrow<ANT, BEE>>(scenario);
+            assert!(escrow.active == true, 1);
             assert!(escrow.offeror == offeror, 2);
             assert!(escrow.expected_amount == 1000, 3);
 
@@ -116,6 +128,7 @@ module sui_escrow::escrow {
                 &mut bee_coin,
                 test_scenario::ctx(scenario));
             test_scenario::return_to_sender(scenario, bee_coin);
+            assert!(escrow.active == false, 4);
             test_scenario::return_shared<Escrow<ANT, BEE>>(escrow);
         };
         test_scenario::next_tx(scenario, admin);
