@@ -8,7 +8,7 @@ import { getCoinObjectIdWithAmount } from './util/coin';
 import { loadKeypair } from './util/keypair';
 
 // --- PLEASE CHANGE IT ACCORDING TO DEPLOYED PACKAGE ADDRESS
-const MODULE_OBJECT_ID = '0xd28148262f040c6a2ba73a3dadfaeaf7ef8418de';
+const MODULE_OBJECT_ID = '0xd3eca334e0fca309c2231acc7ed6c7b7b03060db';
 
 const main = async () => {
     const provider = new JsonRpcProvider(Network.DEVNET);
@@ -59,6 +59,8 @@ const main = async () => {
         console.log('Failed to create escrow object!');
         return;
     }
+
+    console.log('Escrow object id: ', sharedObjectId);
 
     const bobSigner = new RawSigner(bobKeypair, provider);
     const takerCoinObjectId = await getCoinObjectIdWithAmount(

@@ -48,7 +48,7 @@ module sui_escrow::escrow {
         taker_coin: &mut Coin<EXPECTED_TOKEN>,
         ctx: &mut TxContext,
     ) {
-        assert!(escrow.active == false, EInactiveEscrow);
+        assert!(escrow.active != false, EInactiveEscrow);
         assert!(coin::value<EXPECTED_TOKEN>(taker_coin) >= escrow.expected_amount, ENotEnoughBalance);
 
         let expected_coin = coin::split<EXPECTED_TOKEN>(taker_coin, escrow.expected_amount, ctx);
