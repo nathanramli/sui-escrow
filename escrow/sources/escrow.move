@@ -59,7 +59,8 @@ module sui_escrow::escrow {
 
         escrow.active = false;
 
-        // shared object deletation is not supported
+        // shared object deletation is not supported at the moment
+        // this will be supported: https://github.com/MystenLabs/sui/issues/2083
         // let Escrow {
         //     id: id,
         //     offeror: offeror,
