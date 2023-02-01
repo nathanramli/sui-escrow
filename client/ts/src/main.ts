@@ -44,7 +44,11 @@ const main = async () => {
         module: 'escrow',
         function: 'create_offer',
         typeArguments: ['0x2::sui::SUI', '0x2::sui::SUI'],
-        arguments: [offerorCoinObjectId, offeredAmount, expectedAmount],
+        arguments: [
+            offerorCoinObjectId,
+            offeredAmount.toString(),
+            expectedAmount.toString(),
+        ],
         gasBudget: 1000,
     });
 
