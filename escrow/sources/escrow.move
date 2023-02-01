@@ -19,8 +19,6 @@ module sui_escrow::escrow {
         active: bool,
     }
 
-    fun init(_: &mut TxContext) { }
-
     public entry fun create_offer<OFFERED_TOKEN, EXPECTED_TOKEN>(
         offeror_coin: &mut Coin<OFFERED_TOKEN>,
         offered_amount: u64,
@@ -93,7 +91,6 @@ module sui_escrow::escrow {
         let scenario_val = test_scenario::begin(admin);
         let scenario = &mut scenario_val;
         {
-            init(test_scenario::ctx(scenario));
             let minted_candy_coin = coin::mint_for_testing<CANDY>(1000, test_scenario::ctx(scenario));
             transfer::transfer(minted_candy_coin, offeror);
             let minted_pie_coin = coin::mint_for_testing<PIE>(20, test_scenario::ctx(scenario));
