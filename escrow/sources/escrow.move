@@ -98,7 +98,6 @@ module sui_escrow::escrow {
 
             let minted_pie_coin = coin::mint_for_testing<PIE>(1000, test_scenario::ctx(scenario));
             transfer::transfer(minted_pie_coin, taker);
-            transfer::transfer(coin::zero<CANDY>(test_scenario::ctx(scenario)), taker);
         };
         test_scenario::next_tx(scenario, offeror);
         {
