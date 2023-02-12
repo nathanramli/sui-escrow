@@ -19,8 +19,6 @@ module sui_escrow::escrow {
         active: bool,
     }
 
-    fun init(_: &mut TxContext) { }
-
     public entry fun create_offer<OFFERED_TOKEN, EXPECTED_TOKEN>(
         offeror_coin: &mut Coin<OFFERED_TOKEN>,
         offered_amount: u64,
@@ -61,7 +59,8 @@ module sui_escrow::escrow {
 
         escrow.active = false;
 
-        // shared object deletation is not supported
+        // shared object deletation is not supported at the moment
+        // this will be supported: https://github.com/MystenLabs/sui/issues/2083
         // let Escrow {
         //     id: id,
         //     offeror: offeror,
@@ -73,10 +72,10 @@ module sui_escrow::escrow {
     }
 
     #[test_only]
-    struct ANT has drop {}
+    struct CANDY has drop {}
 
     #[test_only]
-    struct BEE has drop {}
+    struct PIE has drop {}
 
 
     #[test]
@@ -93,57 +92,55 @@ module sui_escrow::escrow {
         let scenario_val = test_scenario::begin(admin);
         let scenario = &mut scenario_val;
         {
-            init(test_scenario::ctx(scenario));
-            let minted_ant_coin = coin::mint_for_testing<ANT>(1000, test_scenario::ctx(scenario));
-            transfer::transfer(minted_ant_coin, offeror);
-            let minted_bee_coin = coin::mint_for_testing<BEE>(20, test_scenario::ctx(scenario));
-            transfer::transfer(minted_bee_coin, offeror);
+            let minted_candy_coin = coin::mint_for_testing<CANDY>(1000, test_scenario::ctx(scenario));
+            transfer::transfer(minted_candy_coin, offeror);
+            let minted_pie_coin = coin::mint_for_testing<PIE>(20, test_scenario::ctx(scenario));
+            transfer::transfer(minted_pie_coin, offeror);
 
-            let minted_bee_coin = coin::mint_for_testing<BEE>(1000, test_scenario::ctx(scenario));
-            transfer::transfer(minted_bee_coin, taker);
-            transfer::transfer(coin::zero<ANT>(test_scenario::ctx(scenario)), taker);
+            let minted_pie_coin = coin::mint_for_testing<PIE>(1000, test_scenario::ctx(scenario));
+            transfer::transfer(minted_pie_coin, taker);
         };
         test_scenario::next_tx(scenario, offeror);
         {
-            let ant_coin = test_scenario::take_from_sender<Coin<ANT>>(scenario);
-            create_offer<ANT, BEE>(
-                &mut ant_coin,
+            let candy_coin = test_scenario::take_from_sender<Coin<CANDY>>(scenario);
+            create_offer<CANDY, PIE>(
+                &mut candy_coin,
                 100,
                 1000,
                 test_scenario::ctx(scenario)
             );
-            assert!(coin::value<ANT>(&mut ant_coin) == 900, 2);
-            test_scenario::return_to_sender(scenario, ant_coin);
+            assert!(coin::value<CANDY>(&mut candy_coin) == 900, 2);
+            test_scenario::return_to_sender(scenario, candy_coin);
         };
         test_scenario::next_tx(scenario, taker);
         {
-            let escrow = test_scenario::take_shared<Escrow<ANT, BEE>>(scenario);
+            let escrow = test_scenario::take_shared<Escrow<CANDY, PIE>>(scenario);
             assert!(escrow.active == true, 1);
             assert!(escrow.offeror == offeror, 2);
             assert!(escrow.expected_amount == 1000, 3);
 
-            let bee_coin = test_scenario::take_from_sender<Coin<BEE>>(scenario);
-            take_offer<ANT, BEE>(
+            let pie_coin = test_scenario::take_from_sender<Coin<PIE>>(scenario);
+            take_offer<CANDY, PIE>(
                 &mut escrow,
-                &mut bee_coin,
+                &mut pie_coin,
                 test_scenario::ctx(scenario));
-            test_scenario::return_to_sender(scenario, bee_coin);
+            test_scenario::return_to_sender(scenario, pie_coin);
             assert!(escrow.active == false, 4);
-            test_scenario::return_shared<Escrow<ANT, BEE>>(escrow);
+            test_scenario::return_shared<Escrow<CANDY, PIE>>(escrow);
         };
         test_scenario::next_tx(scenario, admin);
         {
-            let ids = test_scenario::ids_for_address<Coin<BEE>>(offeror);
+            let ids = test_scenario::ids_for_address<Coin<PIE>>(offeror);
             
             let sum = 0;
             while (!vector::is_empty(&ids)) {
                 let id = vector::pop_back(&mut ids);
-                let offeror_bee_coin = test_scenario::take_from_address_by_id<Coin<BEE>>(
+                let offeror_pie_coin = test_scenario::take_from_address_by_id<Coin<PIE>>(
                     scenario,
                     offeror,
                     id);
-                sum = sum + coin::value<BEE>(&offeror_bee_coin);
-                test_scenario::return_to_address(offeror, offeror_bee_coin);
+                sum = sum + coin::value<PIE>(&offeror_pie_coin);
+                test_scenario::return_to_address(offeror, offeror_pie_coin);
             };
             assert!(sum == 1020, 4);
         };

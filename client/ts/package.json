@@ -9,7 +9,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+<<<<<<< HEAD
     "@mysten/sui.js": "^0.22.0",
+=======
+    "@mysten/sui.js": "^0.0.0-experimental-20230131035244",
+>>>>>>> 709453bb9522e8cddc25c4334c145e020138f281
     "path": "^0.12.7"
   },
   "devDependencies": {
