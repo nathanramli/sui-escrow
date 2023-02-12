@@ -1,0 +1,75 @@
+2022-12-31T14:59:30.125994Z  INFO sui::client_commands:                  Object ID                  |  Gas Value 
+2022-12-31T14:59:30.126208Z  INFO sui::client_commands: ----------------------------------------------------------------------
+2022-12-31T14:59:30.126220Z  INFO sui::client_commands:  0x183fd910af3f5025c88477ea861fbb8e47ed0909 |   9998062  
+2022-12-31T14:59:30.126228Z  INFO sui::client_commands:  0x351f4b234aab9e1e49ad7c8169fbafbd4135bf1c |  10000000  
+2022-12-31T14:59:30.126236Z  INFO sui::client_commands:  0x537b61c21d242e1a37143eac4babcf54e0c5a6ba |  10000000  
+2022-12-31T14:59:30.126245Z  INFO sui::client_commands:  0x87d9ae3c850e5694080ccdfbac79cdd157bb01b1 |  10000000  
+2022-12-31T14:59:30.126253Z  INFO sui::client_commands:  0x9d35ebffe1da43a1902515b2be101713c85a19b5 |  10000000  
+2022-12-31T14:59:30.126261Z  INFO sui::client_commands:  0xa09dac06540e2e08539f05f70533872a0d8493cc |  10000000  
+2022-12-31T14:59:30.126269Z  INFO sui::client_commands:  0xd4911929bcb15fb4b855ccfdffa5a9ce36d77f20 |  10000000  
+2022-12-31T14:59:30.126277Z  INFO sui::client_commands:  0xdb5a4f02459a139125486546a374bf40658ed82d |  10000000  
+2022-12-31T14:59:30.126285Z  INFO sui::client_commands:  0xdde8179b80abf16a1ea44128181d50b5ef5066b6 |  10000000  
+2022-12-31T14:59:30.126293Z  INFO sui::client_commands:  0xeab24012c7efb83864cab32d3042bb1869d93631 |  10000000  
+2022-12-31T14:59:58.018847Z  INFO sui::client_commands: Showing 1 results.
+2022-12-31T14:59:58.018887Z  INFO sui::client_commands: 0xcfab3caf956701c9c82c37513da40a43abd3e451
+2022-12-31T15:00:05.157609Z  INFO sui::client_commands:                  Object ID                  |  Gas Value 
+2022-12-31T15:00:05.157663Z  INFO sui::client_commands: ----------------------------------------------------------------------
+2022-12-31T15:00:05.157666Z  INFO sui::client_commands:  0x183fd910af3f5025c88477ea861fbb8e47ed0909 |   9998062  
+2022-12-31T15:00:05.157669Z  INFO sui::client_commands:  0x351f4b234aab9e1e49ad7c8169fbafbd4135bf1c |  10000000  
+2022-12-31T15:00:05.157672Z  INFO sui::client_commands:  0x537b61c21d242e1a37143eac4babcf54e0c5a6ba |  10000000  
+2022-12-31T15:00:05.157674Z  INFO sui::client_commands:  0x87d9ae3c850e5694080ccdfbac79cdd157bb01b1 |  10000000  
+2022-12-31T15:00:05.157677Z  INFO sui::client_commands:  0x9d35ebffe1da43a1902515b2be101713c85a19b5 |  10000000  
+2022-12-31T15:00:05.157679Z  INFO sui::client_commands:  0xa09dac06540e2e08539f05f70533872a0d8493cc |  10000000  
+2022-12-31T15:00:05.157682Z  INFO sui::client_commands:  0xd4911929bcb15fb4b855ccfdffa5a9ce36d77f20 |  10000000  
+2022-12-31T15:00:05.157685Z  INFO sui::client_commands:  0xdb5a4f02459a139125486546a374bf40658ed82d |  10000000  
+2022-12-31T15:00:05.157687Z  INFO sui::client_commands:  0xdde8179b80abf16a1ea44128181d50b5ef5066b6 |  10000000  
+2022-12-31T15:00:05.157690Z  INFO sui::client_commands:  0xeab24012c7efb83864cab32d3042bb1869d93631 |  10000000  
+2022-12-31T15:01:45.368965Z  INFO sui::client_commands: Showing 1 results.
+2022-12-31T15:01:45.369006Z  INFO sui::client_commands: 0xcfab3caf956701c9c82c37513da40a43abd3e451
+2022-12-31T15:01:59.584435Z  INFO sui::client_commands:                  Object ID                  |  Gas Value 
+2022-12-31T15:01:59.584585Z  INFO sui::client_commands: ----------------------------------------------------------------------
+2022-12-31T15:01:59.584591Z  INFO sui::client_commands:  0x01ada9d698e01d68aeaf11690bd4a1c908a8787b |  10000000  
+2022-12-31T15:01:59.584596Z  INFO sui::client_commands:  0x141a5582cc2fd2d37aa1b90d3f64cf645a567f54 |  10000000  
+2022-12-31T15:01:59.584600Z  INFO sui::client_commands:  0x183fd910af3f5025c88477ea861fbb8e47ed0909 |   9998062  
+2022-12-31T15:01:59.584605Z  INFO sui::client_commands:  0x2e5239f69c91eb5bd54d80b8b125c375603fb9ec |  10000000  
+2022-12-31T15:01:59.584608Z  INFO sui::client_commands:  0x351f4b234aab9e1e49ad7c8169fbafbd4135bf1c |  10000000  
+2022-12-31T15:01:59.584612Z  INFO sui::client_commands:  0x38fe8018e54da59461ceb65e58b080ce24ffa39a |  10000000  
+2022-12-31T15:01:59.584616Z  INFO sui::client_commands:  0x537b61c21d242e1a37143eac4babcf54e0c5a6ba |  10000000  
+2022-12-31T15:01:59.584620Z  INFO sui::client_commands:  0x712d4a076cbf92b5c2697ae727ff6dc8f64584dc |  10000000  
+2022-12-31T15:01:59.584624Z  INFO sui::client_commands:  0x7786eb6105a35efa445609a539a6afb254d112de |  10000000  
+2022-12-31T15:01:59.584628Z  INFO sui::client_commands:  0x87d9ae3c850e5694080ccdfbac79cdd157bb01b1 |  10000000  
+2022-12-31T15:01:59.584632Z  INFO sui::client_commands:  0x9d35ebffe1da43a1902515b2be101713c85a19b5 |  10000000  
+2022-12-31T15:01:59.584635Z  INFO sui::client_commands:  0xa09dac06540e2e08539f05f70533872a0d8493cc |  10000000  
+2022-12-31T15:01:59.584639Z  INFO sui::client_commands:  0xbc6ca0626744e0b6736070a08e84a6c30e857abf |  10000000  
+2022-12-31T15:01:59.584643Z  INFO sui::client_commands:  0xcd624660228b2297aeefd5c76b6a537825424fa6 |  10000000  
+2022-12-31T15:01:59.584647Z  INFO sui::client_commands:  0xd4911929bcb15fb4b855ccfdffa5a9ce36d77f20 |  10000000  
+2022-12-31T15:01:59.584651Z  INFO sui::client_commands:  0xd7372a4ca3b818103e7a35082fa50e6089de9016 |  10000000  
+2022-12-31T15:01:59.585234Z  INFO sui::client_commands:  0xdb5a4f02459a139125486546a374bf40658ed82d |  10000000  
+2022-12-31T15:01:59.585243Z  INFO sui::client_commands:  0xdde8179b80abf16a1ea44128181d50b5ef5066b6 |  10000000  
+2022-12-31T15:01:59.585248Z  INFO sui::client_commands:  0xeab24012c7efb83864cab32d3042bb1869d93631 |  10000000  
+2022-12-31T15:01:59.585252Z  INFO sui::client_commands:  0xeb0c92b006206c12df5ddf119e39157e34574fa8 |  10000000  
+2022-12-31T15:16:08.504245Z  INFO sui::client_commands: [
+2022-12-31T15:16:08.504298Z  INFO sui::client_commands:   "0xcfab3caf956701c9c82c37513da40a43abd3e451"
+2022-12-31T15:16:08.504302Z  INFO sui::client_commands: ]
+2022-12-31T15:25:10.377336Z  INFO sui::client_commands:                  Object ID                  |  Gas Value 
+2022-12-31T15:25:10.377537Z  INFO sui::client_commands: ----------------------------------------------------------------------
+2022-12-31T15:25:10.377549Z  INFO sui::client_commands:  0x01ada9d698e01d68aeaf11690bd4a1c908a8787b |   9999135  
+2022-12-31T15:25:10.377557Z  INFO sui::client_commands:  0x141a5582cc2fd2d37aa1b90d3f64cf645a567f54 |  10000000  
+2022-12-31T15:25:10.377566Z  INFO sui::client_commands:  0x183fd910af3f5025c88477ea861fbb8e47ed0909 |   9998062  
+2022-12-31T15:25:10.377574Z  INFO sui::client_commands:  0x2e5239f69c91eb5bd54d80b8b125c375603fb9ec |  10000000  
+2022-12-31T15:25:10.377582Z  INFO sui::client_commands:  0x351f4b234aab9e1e49ad7c8169fbafbd4135bf1c |  10000000  
+2022-12-31T15:25:10.377591Z  INFO sui::client_commands:  0x38fe8018e54da59461ceb65e58b080ce24ffa39a |  10000000  
+2022-12-31T15:25:10.377599Z  INFO sui::client_commands:  0x537b61c21d242e1a37143eac4babcf54e0c5a6ba |  10000000  
+2022-12-31T15:25:10.377607Z  INFO sui::client_commands:  0x712d4a076cbf92b5c2697ae727ff6dc8f64584dc |  10000000  
+2022-12-31T15:25:10.377615Z  INFO sui::client_commands:  0x7786eb6105a35efa445609a539a6afb254d112de |  10000000  
+2022-12-31T15:25:10.377624Z  INFO sui::client_commands:  0x87d9ae3c850e5694080ccdfbac79cdd157bb01b1 |  10000000  
+2022-12-31T15:25:10.377632Z  INFO sui::client_commands:  0x9d35ebffe1da43a1902515b2be101713c85a19b5 |  10000000  
+2022-12-31T15:25:10.377640Z  INFO sui::client_commands:  0xa09dac06540e2e08539f05f70533872a0d8493cc |  10000000  
+2022-12-31T15:25:10.377647Z  INFO sui::client_commands:  0xbc6ca0626744e0b6736070a08e84a6c30e857abf |  10000000  
+2022-12-31T15:25:10.377655Z  INFO sui::client_commands:  0xcd624660228b2297aeefd5c76b6a537825424fa6 |  10000000  
+2022-12-31T15:25:10.377663Z  INFO sui::client_commands:  0xd4911929bcb15fb4b855ccfdffa5a9ce36d77f20 |  10000000  
+2022-12-31T15:25:10.377671Z  INFO sui::client_commands:  0xd7372a4ca3b818103e7a35082fa50e6089de9016 |  10000000  
+2022-12-31T15:25:10.378254Z  INFO sui::client_commands:  0xdb5a4f02459a139125486546a374bf40658ed82d |  10000000  
+2022-12-31T15:25:10.378273Z  INFO sui::client_commands:  0xdde8179b80abf16a1ea44128181d50b5ef5066b6 |  10000000  
+2022-12-31T15:25:10.378283Z  INFO sui::client_commands:  0xeab24012c7efb83864cab32d3042bb1869d93631 |  10000000  
+2022-12-31T15:25:10.378291Z  INFO sui::client_commands:  0xeb0c92b006206c12df5ddf119e39157e34574fa8 |  10000000  
