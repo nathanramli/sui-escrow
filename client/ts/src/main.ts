@@ -3,23 +3,31 @@ import {
     JsonRpcProvider,
     Network,
     RawSigner,
+    Secp256k1Keypair,
 } from '@mysten/sui.js';
 import { getCoinObjectIdWithAmount } from './util/coin';
 import { loadKeypair } from './util/keypair';
 
 // --- PLEASE CHANGE IT ACCORDING TO DEPLOYED PACKAGE ADDRESS
-const MODULE_OBJECT_ID = '0xd3eca334e0fca309c2231acc7ed6c7b7b03060db';
+const MODULE_OBJECT_ID = '0x04069c3a6e269c56dee83b914eb72c7d108d1c12';
 
 const main = async () => {
     const provider = new JsonRpcProvider(Network.DEVNET);
 
     const aliceKeypair = await loadKeypair('alice', true);
+    // const aliceKeypair = new Secp256k1Keypair();
     console.log('Alice Address: ', aliceKeypair.getPublicKey().toSuiAddress());
+
     const bobKeypair = await loadKeypair('bob', true);
+    // const bobKeypair =  new Secp256k1Keypair();
     console.log('Bob Address: ', bobKeypair.getPublicKey().toSuiAddress());
 
     // The rate limiter is very strict, request the Sui coin to an address and then distribute it across the addresses
-    //
+
+    // const faucetProvider = new JsonRpcProvider("https://fullnode.devnet.sui.io:443/", {
+    //     faucetURL: "https://faucetdevnet.sui.io/gas"
+    // });
+
     // await provider.requestSuiFromFaucet(
     //     aliceKeypair.getPublicKey().toSuiAddress()
     // );
@@ -29,8 +37,8 @@ const main = async () => {
 
     const aliceSigner = new RawSigner(aliceKeypair, provider);
 
-    const offeredAmount = 1000;
-    const expectedAmount = 1000;
+    const offeredAmount = 100;
+    const expectedAmount = 100;
     const offerorCoinObjectId = await getCoinObjectIdWithAmount(
         provider,
         aliceSigner,
@@ -44,11 +52,7 @@ const main = async () => {
         module: 'escrow',
         function: 'create_offer',
         typeArguments: ['0x2::sui::SUI', '0x2::sui::SUI'],
-        arguments: [
-            offerorCoinObjectId,
-            offeredAmount.toString(),
-            expectedAmount.toString(),
-        ],
+        arguments: [offerorCoinObjectId, offeredAmount.toString(), expectedAmount.toString()],
         gasBudget: 1000,
     });
 
