@@ -20,6 +20,6 @@ Make sure you have installed all the required tools that mentioned here https://
     sui client new-address <KEY_SCHEME>
     sui client addresses
     ```
-3. Then, we can create a network in the local environment according to the [office document](https://docs.sui.io/build/sui-local-network). If the environment has already been established, you need to execute `sui genesis --force` again to ensure that the addresses you just created can get the faucet on the local network.
+3. Then, we can create a network in the local environment according to the [official documentation](https://docs.sui.io/build/sui-local-network). If the environment has already been established, you need to execute `sui genesis --force` again to ensure that the addresses you just created can get the faucet on the local network.
 
 4. Finally, after you execute `sui client switch --env localnet` to switch to the local environment, you can run escrow following the [quick start](#quick-start) steps. However, when you are on the local network and build the environment according to the above, you can omit the part of manual funding addresses in the fifth step of the [quick start](#quick-start).
