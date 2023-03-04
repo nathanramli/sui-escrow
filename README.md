@@ -12,7 +12,7 @@ Make sure you have installed all the required tools that mentioned here https://
 
 
 ### How to run escrow on Local network
-1. Make sure you have initialized you sui client by running `sui clien`:
+1. Make sure you have initialized your sui client by running `sui client`.
 
 2. Next, you need to add at least two addresses. We will take the second and third address of the local wallet as the addresses of Alice and Bob. After adding them, you can also check all the addresses like below.
     ```
