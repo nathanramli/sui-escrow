@@ -1,31 +1,62 @@
 import {
     getTransactionEffects,
     JsonRpcProvider,
-    Network,
+    localnetConnection,
+    devnetConnection,
     RawSigner,
 } from '@mysten/sui.js';
+import * as child from 'child_process';
 import { getCoinObjectIdWithAmount } from './util/coin';
 import { loadKeypair } from './util/keypair';
+import { localWallet } from './util/wallet';
+import type { Keypair } from '@mysten/sui.js';
 
 // --- PLEASE CHANGE IT ACCORDING TO DEPLOYED PACKAGE ADDRESS
-const MODULE_OBJECT_ID = '0xd3eca334e0fca309c2231acc7ed6c7b7b03060db';
+const MODULE_OBJECT_ID = '0x78c29e4025eae407c016edaa17118f03021fbccb';
 
 const main = async () => {
-    const provider = new JsonRpcProvider(Network.DEVNET);
+    const connection = {
+        localnet: localnetConnection,
+        devnet: devnetConnection,
+    };
 
-    const aliceKeypair = await loadKeypair('alice', true);
-    console.log('Alice Address: ', aliceKeypair.getPublicKey().toSuiAddress());
-    const bobKeypair = await loadKeypair('bob', true);
-    console.log('Bob Address: ', bobKeypair.getPublicKey().toSuiAddress());
+    const currentNetwork = child
+        .execSync('sui client active-env')
+        .toString()
+        .trim();
+    const choiceNetwork: keyof typeof connection = currentNetwork as any;
+    console.log('Current Network', choiceNetwork);
 
-    // The rate limiter is very strict, request the Sui coin to an address and then distribute it across the addresses
-    //
-    // await provider.requestSuiFromFaucet(
-    //     aliceKeypair.getPublicKey().toSuiAddress()
-    // );
-    // await provider.requestSuiFromFaucet(
-    //     bobKeypair.getPublicKey().toSuiAddress()
-    // );
+    const provider = new JsonRpcProvider(connection[choiceNetwork]);
+
+    let aliceKeypair: Keypair;
+    let bobKeypair: Keypair;
+
+    if (choiceNetwork === 'devnet') {
+        aliceKeypair = await loadKeypair('alice', 'ED25519', true);
+        console.log(
+            'Alice Address: ',
+            aliceKeypair.getPublicKey().toSuiAddress()
+        );
+        bobKeypair = await loadKeypair('bob', 'ED25519', true);
+        console.log('Bob Address: ', bobKeypair.getPublicKey().toSuiAddress());
+
+        // [Devnet] The rate limiter is very strict, request the Sui coin to an address and then distribute it across the addresses
+        await provider.requestSuiFromFaucet(
+            aliceKeypair.getPublicKey().toSuiAddress()
+        );
+        await provider.requestSuiFromFaucet(
+            bobKeypair.getPublicKey().toSuiAddress()
+        );
+    } else {
+        aliceKeypair = await localWallet(1);
+        console.log(
+            'Alice Address: ',
+            aliceKeypair.getPublicKey().toSuiAddress()
+        );
+        bobKeypair = await localWallet(2);
+        console.log('Bob Address: ', bobKeypair.getPublicKey().toSuiAddress());
+    }
 
     const aliceSigner = new RawSigner(aliceKeypair, provider);
 
