@@ -52,10 +52,10 @@ module sui_escrow::escrow {
         let expected_coin = coin::split<EXPECTED_TOKEN>(taker_coin, escrow.expected_amount, ctx);
 
         let sender = tx_context::sender(ctx);
-        transfer::transfer(expected_coin, escrow.offeror);
+        transfer::public_transfer(expected_coin, escrow.offeror);
         let offered_token_value = balance::value<OFFERED_TOKEN>(&escrow.offered_token);
         let offered_token = balance::split<OFFERED_TOKEN>(&mut escrow.offered_token, offered_token_value);
-        transfer::transfer(coin::from_balance<OFFERED_TOKEN>(offered_token, ctx), sender);
+        transfer::public_transfer(coin::from_balance<OFFERED_TOKEN>(offered_token, ctx), sender);
 
         escrow.active = false;
 
@@ -93,12 +93,12 @@ module sui_escrow::escrow {
         let scenario = &mut scenario_val;
         {
             let minted_candy_coin = coin::mint_for_testing<CANDY>(1000, test_scenario::ctx(scenario));
-            transfer::transfer(minted_candy_coin, offeror);
+            transfer::public_transfer(minted_candy_coin, offeror);
             let minted_pie_coin = coin::mint_for_testing<PIE>(20, test_scenario::ctx(scenario));
-            transfer::transfer(minted_pie_coin, offeror);
+            transfer::public_transfer(minted_pie_coin, offeror);
 
             let minted_pie_coin = coin::mint_for_testing<PIE>(1000, test_scenario::ctx(scenario));
-            transfer::transfer(minted_pie_coin, taker);
+            transfer::public_transfer(minted_pie_coin, taker);
         };
         test_scenario::next_tx(scenario, offeror);
         {
